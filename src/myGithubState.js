@@ -22,13 +22,6 @@ const GithubState = (props) => {
   const [state, dispatch] = useReducer(GithubReducer, initialState);
 
   const searchUsers = async (text) => {
-    if (text === "") {
-      setAlert();
-      setTimeout(() => {
-        removeAlert();
-      }, 2000);
-      return;
-    }
     setLoading();
 
     const res = await axios.get(
@@ -56,12 +49,8 @@ const GithubState = (props) => {
 
   const clearUsers = () => dispatch({ type: CLEAR_USERS });
   const setLoading = () => dispatch({ type: SET_LOADING });
-  const setAlert = () => {
-    dispatch({
-      type: SET_ALERT,
-      payload: "Please enter something",
-    });
-  };
+  const setAlert = () =>
+    dispatch({ type: SET_ALERT, payload: "Please enter something" });
   const removeAlert = () => dispatch({ type: REMOVE_ALERT });
 
   return (
@@ -70,7 +59,6 @@ const GithubState = (props) => {
         users: state.users,
         user: state.user,
         loading: state.loading,
-        alert: state.alert,
         searchUsers,
         clearUsers,
         getUser,
