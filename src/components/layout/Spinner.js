@@ -1,11 +1,15 @@
-import React from "react";
+import React, { Fragment } from "react";
+import spinner from "./spinner.gif";
+const Spinner = () => (
+  <Fragment>
+    <img src={spinner} alt="Loading..." style={spinnerStyle} />
+  </Fragment>
+);
 
-const Spinner = () => {
-  return (
-    <div>
-      <b>Loading...</b>
-    </div>
-  );
+const spinnerStyle = {
+  width: "200px",
+  display: "block",
+  margin: "auto",
 };
 
 export default Spinner;

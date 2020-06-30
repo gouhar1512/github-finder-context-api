@@ -1,26 +1,49 @@
 import React, { useState, useContext } from "react";
 import GithubContext from "../../context/github/githubContext";
-const Search = (props) => {
-  const githubContext = useContext(GithubContext);
+import AlertContext from "../../context/alert/alertContext";
 
-  const { showClear } = props;
+const Search = () => {
+  const githubContext = useContext(GithubContext);
+  const alertContext = useContext(AlertContext);
 
   const [text, setText] = useState("");
+
   const onSubmit = (e) => {
     e.preventDefault();
-    githubContext.searchUsers(text);
-    setText("");
+    if (text === "") {
+      alertContext.setAlert("Please enter something", "light");
+    } else {
+      githubContext.searchUsers(text);
+      setText("");
+    }
   };
 
   const onChange = (e) => setText(e.target.value);
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <input value={text} onChange={onChange} />
-        <button>Search</button>
+      <form onSubmit={onSubmit} className="form" autoComplete="off">
+        <input
+          type="text"
+          name="text"
+          placeholder="Search Users..."
+          value={text}
+          onChange={onChange}
+        />
+        <input
+          type="submit"
+          value="Search"
+          className="btn btn-dark btn-block"
+        />
       </form>
-      {showClear && <button onClick={githubContext.clearUsers}>Clear</button>}
+      {githubContext.users.length > 0 && (
+        <button
+          className="btn btn-light btn-block"
+          onClick={githubContext.clearUsers}
+        >
+          Clear
+        </button>
+      )}
     </div>
   );
 };
